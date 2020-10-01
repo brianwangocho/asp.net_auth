@@ -1,0 +1,107 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Admin</h2>
+
+@using (Html.BeginForm("CreateUser", "Admin", FormMethod.Post))
+{
+    <div class="card border-info mb-3">
+        <div class="card-header ">
+            Add User
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <label class="control-label">User Mail</label>
+                    <input type="text" name="txtEmail" class="form-control" />
+
+                </div>
+                <div class="col-md-6">
+                    <label class="control-label">User Password</label>
+                    <input type="password" name="password" class="form-control" />
+
+                </div>
+
+            </div>
+            <div>
+                <div class="col-md-12">
+                    <button type="submit" value="Submit" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+}
+<div class="btn-group">
+    <a id="createEditUserModal" data-toggle="modal" asp-action="AddUser" data-target="#modal-action-user" class="btn btn-primary float-right">
+        <i class="glyphicon glyphicon-plus"></i>  Add User
+    </a>
+</div>
+<table class="table table-bordered table-striped table-condensed">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Email Confirmed</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Name</td>
+                <td>@item.Email</td>
+                <td>@item.EmailConfirmed</td>
+
+                <td>
+                    <a id="editUserModal" data-toggle="modal" asp-action="EditUser" asp-route-id="@item.Id" data-target="#modal-action-user"
+                       class="btn btn-info">
+                        <i class="glyphicon glyphicon-pencil"></i>  Edit
+                    </a>
+                    <a id="editUserModal" data-toggle="modal" asp-action="AsignRole" asp-route-id="@item.Id" data-target="#modal-action-user"
+                       class="btn btn-info">
+                        <i class=" fa-user-tag"></i> Asign Role
+                    </a>
+                    <a id="editUserModal" data-toggle="modal" asp-action="AsignRole" asp-route-id="@item.Id" data-target="#modal-action-user"
+                       class="btn btn-success">
+                        <i class="glyphicon glyphicon-eye-open"></i> View User
+                    </a>
+                    <a id="deleteUserModal" data-toggle="modal" asp-action="DeleteUser" asp-route-id="@item.Id" data-target="#modal-action-user" class="btn btn-danger">
+                        <i class="glyphicon glyphicon-trash"></i>  Delete
+                    </a>
+                </td>
+            </tr>
+
+        }
+    </tbody>
+</table>
+
+
+<div class="container">
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-sm-3">
+                <div class="card" style=" padding: 2px 26px 8px;margin-bottom:6px;margin-top:6px;  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); transition: 0.3s;">
+                    @*<img class="card-img-top" src="..." alt="Card image cap">*@
+                    <h5 class="card-title"> <i class="glyphicon glyphicon-folder-open" style="color:orange;"></i> Classes</h5>
+
+                    <div class="card-body">
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        <a href="#" class="btn btn-primary"> <span class="badge badge-pill badge-primary">40</span> files</a>
+
+                    </div>
+                </div>
+
+            </div>
+        }
+    </div>
+</div>
+
+
+
+
+
