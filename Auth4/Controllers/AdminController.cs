@@ -1,4 +1,5 @@
-﻿using Auth4.Models;
+﻿using DevExpress.Web.Mvc;
+using Auth4.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
@@ -6,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Auth4.Repo;
 
 namespace Auth4.Controllers
 {
@@ -16,7 +18,7 @@ namespace Auth4.Controllers
 
 
         // GET: Admin
-        [Authorize(Roles ="Admin")]
+        [Authorize(Roles = "Admin")]
         public ActionResult Index(int page = 1)
         {
             var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
@@ -30,8 +32,18 @@ namespace Auth4.Controllers
                 EmailConfirmed = u.EmailConfirmed
             }).ToList();
 
+            DeptRepo deptRepo = new DeptRepo(context);
+            deptRepo.GetAll();
+            var data = new DeptClassViewModel
+            {
+                ClassesPerPage = 10,
+                DeptClasses = deptRepo.GetAll(),
+                CurrentPage = page
+            };
 
-            return View(model);
+
+
+            return View(data);
         }
 
         [HttpPost]
@@ -83,6 +95,36 @@ namespace Auth4.Controllers
         }
 
         [HttpPost]
+        public ActionResult CreateDeptClass(FormCollection form)
+        {
+          using(var context1 = new ApplicationDbContext()){
+
+              
+                    var data = new DeptClass()
+                    {
+                        CreatedBy = (string)User.Identity.GetUserId(),
+                        CreatedOn = DateTime.Now,
+                        ModifiedOn = DateTime.Now,
+                        Name = "New class",
+                        Description = "new Description"
+
+                    };
+                    DeptRepo deptRepo = new DeptRepo(context1);
+                    deptRepo.Add(data);
+              
+          
+
+            }
+          
+
+       
+
+            return Redirect("/Admin/Index");
+        }
+
+
+
+        [HttpPost]
         public ActionResult CreateRole(FormCollection form)
 
         {
@@ -95,9 +137,16 @@ namespace Auth4.Controllers
                 var role = new IdentityRole(rolename);
                 roleManager.Create(role);
 
-             return   Redirect("/");
+                return Redirect("/");
             }
             return Redirect("/");
         }
+
+
+
+     
     }
+
+
+
 }

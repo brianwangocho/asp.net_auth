@@ -24,10 +24,13 @@ namespace Auth4.Models
             : base("DefaultConnection", throwIfV1Schema: false)
         {
         }
+        public virtual DbSet<DeptClass> DeptClasses { get; set; }
+        public virtual DbSet<Files> Files { get; set; }
 
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();
         }
+   
     }
 }
