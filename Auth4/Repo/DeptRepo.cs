@@ -26,7 +26,10 @@ namespace Auth4.Repo
         }
         public IEnumerable<DeptClass> GetAll()
         {
-            return _context.DeptClasses.ToList<DeptClass>();
+
+            // _context.DeptClasses.ToList<DeptClass>();
+            var entity_query = _context.DeptClasses.OrderByDescending(date =>date.CreatedOn).ToList<DeptClass>();
+            return entity_query;
         }
 
     }

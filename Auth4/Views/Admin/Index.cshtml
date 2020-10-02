@@ -105,7 +105,7 @@
                     <div class="card-body">
                         <p class="card-text">@item.Description</p>
                         <p class="card-text"><span>CreatedOn</span>@item.CreatedOn</p>
-                        <a href="#" class="btn btn-primary"> <span class="badge badge-pill badge-primary">40</span> files</a>
+                        <a class="btn btn-primary" href="@Url.Action("Index", "Files",new { DeptClassId = item.Id }) "> <span class="badge badge-pill badge-primary">40</span> files</a>
 
                     </div>
                 </div>
