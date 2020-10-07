@@ -256,9 +256,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202010011311510_addkeywithintid.cs" />
-    <Compile Include="Migrations\202010011311510_addkeywithintid.designer.cs">
-      <DependentUpon>202010011311510_addkeywithintid.cs</DependentUpon>
+    <Compile Include="Migrations\202010050641070_updatemodels.cs" />
+    <Compile Include="Migrations\202010050641070_updatemodels.designer.cs">
+      <DependentUpon>202010050641070_updatemodels.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202010051105475_contenttype.cs" />
+    <Compile Include="Migrations\202010051105475_contenttype.designer.cs">
+      <DependentUpon>202010051105475_contenttype.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -449,8 +453,11 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202010011311510_addkeywithintid.resx">
-      <DependentUpon>202010011311510_addkeywithintid.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202010050641070_updatemodels.resx">
+      <DependentUpon>202010050641070_updatemodels.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202010051105475_contenttype.resx">
+      <DependentUpon>202010051105475_contenttype.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

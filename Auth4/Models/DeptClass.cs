@@ -26,7 +26,6 @@ namespace Auth4.Models
 
         public virtual ICollection<Files> Files { get; set; }
 
-
-
+     
     }
 }

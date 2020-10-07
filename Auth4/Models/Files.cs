@@ -7,16 +7,20 @@ using System.Web;
 
 namespace Auth4.Models
 {
-    [Table("Files")]
+
     public class Files
     {
         [Key]
-        public string Id { get; set; }
+        public int Id { get; set; }
 
         [Required]
-        public string DeptClassId { get; set; }
+        public int DeptClassId { get; set; }
 
         public string FileName { get; set; }
+
+        public string ContentType { get; set; }
+
+        public byte[] file { get; set; }
 
         [Required]
      
@@ -26,6 +30,11 @@ namespace Auth4.Models
 
         public DateTime ModifiedOn { get; set; }
 
+
+        [ForeignKey("DeptClassId")]
         public virtual DeptClass DeptClass { get; set; }
+
+
+       
     }
 }

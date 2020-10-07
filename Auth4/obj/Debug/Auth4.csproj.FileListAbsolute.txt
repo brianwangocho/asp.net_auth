@@ -281,6 +281,7 @@ C:\Users\Ngenx\source\repos\Authentication\Auth4\bin\de\DevExpress.Xpo.v20.1.res
 C:\Users\Ngenx\source\repos\Authentication\Auth4\bin\es\DevExpress.Xpo.v20.1.resources.dll
 C:\Users\Ngenx\source\repos\Authentication\Auth4\bin\ja\DevExpress.Xpo.v20.1.resources.dll
 C:\Users\Ngenx\source\repos\Authentication\Auth4\bin\ru\DevExpress.Xpo.v20.1.resources.dll
-C:\Users\Ngenx\source\repos\Authentication\Auth4\obj\Debug\Auth4.Migrations.addkeywithintid.resources
+C:\Users\Ngenx\source\repos\Authentication\Auth4\obj\Debug\Auth4.Migrations.updatemodels.resources
 C:\Users\Ngenx\source\repos\Authentication\Auth4\obj\Debug\Auth4.csproj.GenerateResource.cache
+C:\Users\Ngenx\source\repos\Authentication\Auth4\obj\Debug\Auth4.Migrations.contenttype.resources
 C:\Users\Ngenx\source\repos\Authentication\Auth4\obj\Debug\Auth4.csprojAssemblyReference.cache

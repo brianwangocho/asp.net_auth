@@ -7,38 +7,41 @@
 
 @using (Html.BeginForm("CreateUser", "Admin", FormMethod.Post))
 {
-    <div class="card border-info mb-3">
-        <div class="card-header ">
-            Add User
-        </div>
-        <div class="card-body">
-            <div class="row">
-                <div class="col-md-6">
-                    <label class="control-label">User Mail</label>
-                    <input type="text" name="txtEmail" class="form-control" />
-
-                </div>
-                <div class="col-md-6">
-                    <label class="control-label">User Password</label>
-                    <input type="password" name="password" class="form-control" />
-
-                </div>
-
-            </div>
-            <div>
-                <div class="col-md-12">
-                    <button type="submit" value="Submit" class="btn btn-primary">Save</button>
-                </div>
-            </div>
-
-        </div>
+<div class="card border-info" style=" padding: 2px 26px 8px;margin-bottom:6px;margin-top:6px;  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); transition: 0.3s;">
+    <div class="card-header ">
+        Create User
     </div>
-}
-<div class="btn-group">
-    <a id="createEditUserModal" data-toggle="modal" asp-action="AddUser" data-target="#modal-action-user" class="btn btn-primary float-right">
-        <i class="glyphicon glyphicon-plus"></i>  Add User
-    </a>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                <label class="control-label">Mail</label>
+                <input type="text" name="txtUserEmail" required class="form-control" value=""  placeholder=""/>
+
+            </div>
+            <div class="col-md-6">
+                <label class="control-label">Password</label>
+                <input type="password" name="txtpassword" required class="form-control"  value="" placeholder=""/>
+
+            </div>
+
+            <div class="col-md-12 " style="margin-top:10px;">
+                <button type="submit" value="Submit" class="btn btn-primary">Save</button>
+            </div>
+        </div>
+
+
+    </div>
+        <div>
+         
+    </div>
+    @*<div class="btn-group">
+        <a id="createEditUserModal" data-toggle="modal" asp-action="AddUser" data-target="#modal-action-user" class="btn btn-primary float-right">
+            <i class="glyphicon glyphicon-plus"></i>  Add User
+        </a>
+    </div>*@
 </div>
+}
+
 @*<table class="table table-bordered table-striped table-condensed">
     <thead>
         <tr>
@@ -105,7 +108,7 @@
                     <div class="card-body">
                         <p class="card-text">@item.Description</p>
                         <p class="card-text"><span>CreatedOn</span>@item.CreatedOn</p>
-                        <a class="btn btn-primary" href="@Url.Action("Index", "Files",new { DeptClassId = item.Id }) "> <span class="badge badge-pill badge-primary">40</span> files</a>
+                        <a class="btn btn-primary" href="@Url.Action("Index", "Files",new { DeptClassId = item.Id }) "> <span class="badge badge-pill badge-primary">@item.Files.Count</span> files</a>
 
                     </div>
                 </div>
@@ -125,7 +128,7 @@
 </div>
 
 <script>
-
+    $(document).ready(function () { $("input").attr("autocomplete", "off"); }); 
 </script>
 
 

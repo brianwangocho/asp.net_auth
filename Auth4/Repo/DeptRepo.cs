@@ -1,4 +1,5 @@
 ﻿using Auth4.Models;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,14 +10,17 @@ namespace Auth4.Repo
     public class DeptRepo
     {
         private ApplicationDbContext _context { get; set; }
+      
 
         public DeptRepo(ApplicationDbContext context)
         {
             _context = context;
+     
 
         }
         public void Add(DeptClass emp)
         {
+       
             _context.DeptClasses.Add(emp);
             _context.SaveChanges();
         }

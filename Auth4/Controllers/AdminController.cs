@@ -8,6 +8,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Auth4.Repo;
+using Microsoft.Extensions.Logging;
 
 namespace Auth4.Controllers
 {
@@ -15,6 +16,7 @@ namespace Auth4.Controllers
     {
 
         ApplicationDbContext context = new ApplicationDbContext();
+    
 
 
         // GET: Admin
@@ -50,9 +52,9 @@ namespace Auth4.Controllers
         public ActionResult CreateUser(FormCollection form)
         {
             var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
-            string Username = form["txtEmail"];
-            string Email = form["txtEmail"];
-            string Password = form["password"];
+            string Username = form["txtUserEmail"];
+            string Email = form["txtUserEmail"];
+            string Password = form["txtpassword"];
 
             var user = new ApplicationUser();
             user.Email = Email;
@@ -61,7 +63,7 @@ namespace Auth4.Controllers
             var newUser = userManager.Create(user, Password);
             if (newUser.Succeeded)
             {
-                return Redirect("/");
+                return Redirect("/Admin");
             }
             return Redirect("/");
         }

@@ -1,30 +1,95 @@
 ﻿
 @{
     ViewBag.Title = "Index";
+
+
 }
 
 <h2>Files</h2>
 
+
+@using (Html.BeginForm("UploadFile", "Files", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="card border-info" style=" padding: 2px 26px 8px;margin-bottom:6px;margin-top:6px;  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); transition: 0.3s;">
+        <div class="card-header ">
+            <h4>CreateFile</h4>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <label class="control-label">File Name</label>
+                    <input type="text" name="txtFileName" required class="form-control" />
+
+                </div>
+                <div class="col-md-6">
+                    <label class="control-label">File</label>
+                    <input type="file" name="File" accept="application/pdf,application/vnd.ms-excel" required class="form-control" />
+
+                </div>
+
+                <input type="text" name="txtClassDeptId" required class="form-control hidden"  value="@ViewBag.DeptClassId" />
+
+
+                <div class="col-md-12 " style="margin-top:10px;">
+                    <button type="submit" value="Submit" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+
+
+        </div>
+        <div>
+
+        </div>
+        @*<div class="btn-group">
+                <a id="createEditUserModal" data-toggle="modal" asp-action="AddUser" data-target="#modal-action-user" class="btn btn-primary float-right">
+                    <i class="glyphicon glyphicon-plus"></i>  Add User
+                </a>
+            </div>*@
+    </div>
+}
+
+
+
+
+
+
+
 @if (Model.IsListEmpty())
 {
-<div class="center-block" style="align-content:center;">
-    <img src="https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/84b5c155264735.597d9ddcb39d8.jpg" style="width:500px; align-items:center;
+    <div class="center-block" style="align-content:center;">
+        <img src="https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/84b5c155264735.597d9ddcb39d8.jpg" style="width:500px; align-items:center;
 " alt="empty" />
-    <p>This class has no Files</p>
+        <p>This class has no Files</p>
 
-</div>
+    </div>
 
 }
 else
-{   
+{
     foreach (var item in Model.files)
     {
         <div class="col-sm-4">
             <div class="card" style=" padding: 2px 26px 8px;margin-bottom:6px;margin-top:6px;  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); transition: 0.3s;">
                 @*<img class="card-img-top" src="..." alt="Card image cap">*@
                 <h5 class="card-title"> <i class="glyphicon glyphicon-folder-open" style="color:orange;"></i> @item.FileName</h5>
-
+                <h5 class="card-title"> <i class="fas fa-file-pdf" style="color:orange;"></i> @item.ContentType</h5>
                 <div class="card-body">
+                    @*<iframe src=@Model.LoadPdf(@item.file) height="100%" width="100%">
+
+
+            </iframe>*@
+                    <object data=@Model.LoadPdf(@item.file) type="application/pdf"></object>
+
+                    @if (item.ContentType=="application/pdf")
+                    {
+                    <i class="fas fa-file-pdf" style="color:aqua;"> pdf</i>
+                    }
+
+
+                    @*<embed type="application/pdf" data=@Model.LoadPdf(@item.file) width="100%" height="100%">
+            </embed>*@
+
+
                     <p class="card-text"><span>CreatedBy</span>@item.CreatedBy</p>
                     <p class="card-text"><span>CreatedOn</span>@item.CreatedOn</p>
 
@@ -32,6 +97,7 @@ else
             </div>
 
         </div>
+
     }
 }
 
