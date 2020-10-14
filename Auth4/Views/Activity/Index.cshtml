@@ -1,0 +1,154 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    string text = (string)TempData["FlashMessage.Text"];
+
+    string cssClass = null;
+    if (!string.IsNullOrWhiteSpace(text))
+    
+    {
+        Auth4.Models.FlashMessageType type = (Auth4.Models.FlashMessageType)TempData["FlashMessage.Type"];
+        cssClass = type.ToString().ToLower();
+    }
+}
+
+<h2>Activities</h2>
+
+@if (!string.IsNullOrWhiteSpace(text))
+{
+
+    if (cssClass.Equals("success"))
+    {
+<div class="alert alert-success" role="alert">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    @text
+</div>
+
+    }
+    else if (cssClass.Equals("error"))
+    {
+<div class="alert alert-warning" role="alert">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    @text
+</div>
+
+    }
+    else
+    {
+
+        <div class="alert alert-light" role="alert">
+      @text
+        </div>
+    }
+
+
+}
+
+
+
+@using (Html.BeginForm("CreateActivity", "Activity", FormMethod.Post))
+{
+<div class="row">
+    <div class="col-md-6">
+        <label class="control-label">Activity</label>
+        <input type="text" name="ActivityName" class="form-control" />
+    </div>
+
+    <div class="col-md-12 " style="margin-top:10px;">
+        <button type="submit" value="Submit" class="btn btn-primary">Save</button>
+    </div>
+</div>
+
+}
+
+
+
+
+@if (Model.IsListEmpty())
+{
+    <div class="center-block" style="align-content:center;">
+        <img src="https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/84b5c155264735.597d9ddcb39d8.jpg" style="width:500px; align-items:center;
+" alt="empty" />
+        <p>No Activities found</p>
+
+    </div>
+
+}
+else
+{
+    <table class="table table-bordered table-striped table-condensed">
+        <thead>
+            <tr>
+
+                <th>Name</th>
+                <th>Status</th>
+                <th>CreatedOn</th>
+                <th>CreatedBy</th>
+            </tr>
+        </thead>
+        <tbody>
+
+
+
+            @foreach (var item in Model.activities)
+            {
+            <tr>
+                <td> <a style="text-decoration:none" href="@Url.Action("Index", "Tasks",new {  ActivityId = item.Id ,Name = item.Name}) ">@item.Name</a></td>
+                @if (@item.Status.Equals("1"))
+                {
+                    <td style="color:green">active</td>
+                }
+                else
+                {
+                    <td style="color:red">not active</td>
+                }
+
+                <td>@item.CreatedOn</td>
+                <td>@item.CreatedBy</td>
+                <td>
+                    @if (@item.Status.Equals("1"))
+                    {
+                        <button onclick="deactivateActivity(@item.Id)">Deactivate</button>
+                    }
+                    else
+                    {
+                        <button onclick="deactivateActivity(@item.Id)">activate</button>
+                    }
+
+                </td>
+
+
+                </tr>
+
+            }
+        </tbody>
+    </table>
+
+
+
+}
+<script>
+
+   
+    var deactivateActivity = (id) => {
+      
+        $.ajax({
+            type: 'POST',
+            async:true,
+            url: '@Url.Action("DeactivateActivity")',
+            data: { Id: id },
+            success: function (data) {
+                alert(data);
+            },
+            error: function () {
+                alert("something happened contact the admin")
+            }
+
+        })
+    }
+
+
+</script>
+
+
+

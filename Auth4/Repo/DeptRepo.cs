@@ -28,6 +28,11 @@ namespace Auth4.Repo
         {
             return _context.DeptClasses.FirstOrDefault(e => e.Id == ID);
         }
+        public string GetName(int ID)
+        {
+            string name = _context.DeptClasses.FirstOrDefault(e => e.Id == ID).Name;
+            return name;
+        }
         public IEnumerable<DeptClass> GetAll()
         {
 

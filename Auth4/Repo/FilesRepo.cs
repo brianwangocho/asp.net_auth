@@ -53,13 +53,21 @@ namespace Auth4.Repo
             await _context.SaveChangesAsync();
         }
 
+        public string GetfilePath(int id)
+        {
+            string filepath = _context.Files.FirstOrDefault(e => e.Id == id).FilePathDirectory;
+
+            return filepath;
+
+        }
+
 
         /// <summary>
         /// get alll files
         /// </summary>
         /// <param name="DeptclassId"></param>
         /// <returns></returns>
-        public IEnumerable<Files> GetClassFiles(int DeptclassId)
+        public IEnumerable<Files> GetClassFiles(int? DeptclassId)
         {
           var classFiles =   _context.Files.Where(e => e.DeptClassId == DeptclassId).ToList<Files>();
            return classFiles;

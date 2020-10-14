@@ -27,6 +27,15 @@ namespace Auth4.Models
         public virtual DbSet<DeptClass> DeptClasses { get; set; }
         public virtual DbSet<Files> Files { get; set; }
 
+        public virtual DbSet<Activity>Activities { get; set; }
+
+        public virtual DbSet<Pertake> Pertake { get; set; }
+        public virtual DbSet<Tasks> Tasks { get; set; }
+
+        public virtual DbSet<Rotter> Rotters { get; set; }
+
+
+
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();
