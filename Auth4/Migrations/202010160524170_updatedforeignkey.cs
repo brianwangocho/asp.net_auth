@@ -3,7 +3,7 @@
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class addedTask : DbMigration
+    public partial class updatedforeignkey : DbMigration
     {
         public override void Up()
         {
@@ -26,13 +26,15 @@
                         Id = c.Int(nullable: false, identity: true),
                         ActvityId = c.Int(nullable: false),
                         Name = c.String(),
+                        AssignTo = c.String(maxLength: 128),
                         Status = c.String(),
                         Priority = c.Int(nullable: false),
-                        activity_Id = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Activities", t => t.activity_Id)
-                .Index(t => t.activity_Id);
+                .ForeignKey("dbo.Activities", t => t.ActvityId, cascadeDelete: true)
+                .ForeignKey("dbo.AspNetUsers", t => t.AssignTo)
+                .Index(t => t.ActvityId)
+                .Index(t => t.AssignTo);
             
             CreateTable(
                 "dbo.Rotters",
@@ -58,65 +60,16 @@
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        UserId = c.Int(nullable: false),
+                        UserId = c.String(nullable: false, maxLength: 128),
                         status = c.String(),
                         name = c.String(),
-                    })
-                .PrimaryKey(t => t.Id);
-            
-            CreateTable(
-                "dbo.DeptClasses",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Name = c.String(),
-                        Description = c.String(),
-                        CreatedOn = c.DateTime(nullable: false),
-                        CreatedBy = c.String(),
-                        ModifiedOn = c.DateTime(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id);
-            
-            CreateTable(
-                "dbo.Files",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        DeptClassId = c.Int(nullable: false),
-                        FileName = c.String(),
-                        FilePathDirectory = c.String(),
-                        ContentType = c.String(),
-                        file = c.Binary(),
-                        CreatedOn = c.DateTime(nullable: false),
-                        CreatedBy = c.String(nullable: false),
-                        ModifiedOn = c.DateTime(nullable: false),
+                        ActivityId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.DeptClasses", t => t.DeptClassId, cascadeDelete: true)
-                .Index(t => t.DeptClassId);
-            
-            CreateTable(
-                "dbo.AspNetRoles",
-                c => new
-                    {
-                        Id = c.String(nullable: false, maxLength: 128),
-                        Name = c.String(nullable: false, maxLength: 256),
-                    })
-                .PrimaryKey(t => t.Id)
-                .Index(t => t.Name, unique: true, name: "RoleNameIndex");
-            
-            CreateTable(
-                "dbo.AspNetUserRoles",
-                c => new
-                    {
-                        UserId = c.String(nullable: false, maxLength: 128),
-                        RoleId = c.String(nullable: false, maxLength: 128),
-                    })
-                .PrimaryKey(t => new { t.UserId, t.RoleId })
-                .ForeignKey("dbo.AspNetRoles", t => t.RoleId, cascadeDelete: true)
+                .ForeignKey("dbo.Activities", t => t.ActivityId, cascadeDelete: true)
                 .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
                 .Index(t => t.UserId)
-                .Index(t => t.RoleId);
+                .Index(t => t.ActivityId);
             
             CreateTable(
                 "dbo.AspNetUsers",
@@ -163,35 +116,95 @@
                 .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
                 .Index(t => t.UserId);
             
+            CreateTable(
+                "dbo.AspNetUserRoles",
+                c => new
+                    {
+                        UserId = c.String(nullable: false, maxLength: 128),
+                        RoleId = c.String(nullable: false, maxLength: 128),
+                    })
+                .PrimaryKey(t => new { t.UserId, t.RoleId })
+                .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
+                .ForeignKey("dbo.AspNetRoles", t => t.RoleId, cascadeDelete: true)
+                .Index(t => t.UserId)
+                .Index(t => t.RoleId);
+            
+            CreateTable(
+                "dbo.DeptClasses",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Name = c.String(),
+                        Description = c.String(),
+                        CreatedOn = c.DateTime(nullable: false),
+                        CreatedBy = c.String(),
+                        ModifiedOn = c.DateTime(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id);
+            
+            CreateTable(
+                "dbo.Files",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        DeptClassId = c.Int(nullable: false),
+                        FileName = c.String(),
+                        FilePathDirectory = c.String(),
+                        ContentType = c.String(),
+                        file = c.Binary(),
+                        CreatedOn = c.DateTime(nullable: false),
+                        CreatedBy = c.String(nullable: false),
+                        ModifiedOn = c.DateTime(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.DeptClasses", t => t.DeptClassId, cascadeDelete: true)
+                .Index(t => t.DeptClassId);
+            
+            CreateTable(
+                "dbo.AspNetRoles",
+                c => new
+                    {
+                        Id = c.String(nullable: false, maxLength: 128),
+                        Name = c.String(nullable: false, maxLength: 256),
+                    })
+                .PrimaryKey(t => t.Id)
+                .Index(t => t.Name, unique: true, name: "RoleNameIndex");
+            
         }
         
         public override void Down()
         {
+            DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
+            DropForeignKey("dbo.Files", "DeptClassId", "dbo.DeptClasses");
+            DropForeignKey("dbo.Tasks", "AssignTo", "dbo.AspNetUsers");
+            DropForeignKey("dbo.Rotters", "TaskId", "dbo.Tasks");
+            DropForeignKey("dbo.Rotters", "pertake_Id", "dbo.Pertakes");
+            DropForeignKey("dbo.Pertakes", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserRoles", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
-            DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
-            DropForeignKey("dbo.Files", "DeptClassId", "dbo.DeptClasses");
-            DropForeignKey("dbo.Rotters", "TaskId", "dbo.Tasks");
-            DropForeignKey("dbo.Rotters", "pertake_Id", "dbo.Pertakes");
-            DropForeignKey("dbo.Tasks", "activity_Id", "dbo.Activities");
+            DropForeignKey("dbo.Pertakes", "ActivityId", "dbo.Activities");
+            DropForeignKey("dbo.Tasks", "ActvityId", "dbo.Activities");
+            DropIndex("dbo.AspNetRoles", "RoleNameIndex");
+            DropIndex("dbo.Files", new[] { "DeptClassId" });
+            DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
+            DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
             DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
             DropIndex("dbo.AspNetUserClaims", new[] { "UserId" });
             DropIndex("dbo.AspNetUsers", "UserNameIndex");
-            DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
-            DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
-            DropIndex("dbo.AspNetRoles", "RoleNameIndex");
-            DropIndex("dbo.Files", new[] { "DeptClassId" });
+            DropIndex("dbo.Pertakes", new[] { "ActivityId" });
+            DropIndex("dbo.Pertakes", new[] { "UserId" });
             DropIndex("dbo.Rotters", new[] { "pertake_Id" });
             DropIndex("dbo.Rotters", new[] { "TaskId" });
-            DropIndex("dbo.Tasks", new[] { "activity_Id" });
-            DropTable("dbo.AspNetUserLogins");
-            DropTable("dbo.AspNetUserClaims");
-            DropTable("dbo.AspNetUsers");
-            DropTable("dbo.AspNetUserRoles");
+            DropIndex("dbo.Tasks", new[] { "AssignTo" });
+            DropIndex("dbo.Tasks", new[] { "ActvityId" });
             DropTable("dbo.AspNetRoles");
             DropTable("dbo.Files");
             DropTable("dbo.DeptClasses");
+            DropTable("dbo.AspNetUserRoles");
+            DropTable("dbo.AspNetUserLogins");
+            DropTable("dbo.AspNetUserClaims");
+            DropTable("dbo.AspNetUsers");
             DropTable("dbo.Pertakes");
             DropTable("dbo.Rotters");
             DropTable("dbo.Tasks");

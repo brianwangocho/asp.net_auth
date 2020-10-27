@@ -21,7 +21,7 @@ namespace Auth4.Models
 
 
 
-        public virtual ICollection<Tasks> Tasks { get; set; }
+        public virtual List<Tasks> Tasks { get; set; }
 
     }
 }

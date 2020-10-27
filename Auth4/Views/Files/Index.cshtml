@@ -81,8 +81,8 @@ else
 
                     <p class="card-text"><span>CreatedBy</span>@item.CreatedBy</p>
                     <p class="card-text"><span>CreatedOn</span>@item.CreatedOn</p>
-                    
 
+                    <a style="text-decoration:none" href="@Url.Action("ViewPdf", "Files",new {  FileId = item.Id}) ">View</a>
                     <button onclick="deleteFile(@item.Id)">Delete file</button>
 
 

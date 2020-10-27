@@ -7,13 +7,13 @@ namespace Auth4.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.4.4")]
-    public sealed partial class addedTask : IMigrationMetadata
+    public sealed partial class addedvirtualtorotter : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(addedTask));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(addedvirtualtorotter));
         
         string IMigrationMetadata.Id
         {
-            get { return "202010140536185_addedTask"; }
+            get { return "202010220917337_addedvirtualtorotter"; }
         }
         
         string IMigrationMetadata.Source

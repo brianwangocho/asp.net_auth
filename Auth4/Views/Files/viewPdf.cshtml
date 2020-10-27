@@ -1,0 +1,74 @@
+﻿
+@{
+    Layout = null;
+    string text = (string)TempData["File.url"];
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>viewPdf</title>
+ 
+</head>
+<body>
+    <div>
+        <canvas id="pdf"></canvas>
+    </div>
+</body>
+</html>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.0.943/pdf.min.js">
+</script>
+
+<script>
+    var exp ="@text";
+    console.log(exp);
+    function getsize() {
+        var myObject, afile, size;
+        // Creates an instance of the FileSystemObject
+        myObject = new ActiveXObject("Scripting.FileSystemObject");
+        afile = myObject.GetFile(exp)
+
+        //Gets the size of the file
+        size = afile.Size;
+        console.log(size);
+
+        // Informs user of the file size
+        alert("The size of the test.txt file is:" + size);
+    } 
+
+
+
+
+    var loadingTask = pdfjsLib.getDocument("file:///" + exp);
+
+    getsize();
+    loadingTask.promise.then(
+        function (pdf) {
+            // Load information from the first page.
+            pdf.getPage(1).then(function (page) {
+                var scale = 1;
+                var viewport = page.getViewport(scale);
+
+                // Apply page dimensions to the <canvas> element.
+                var canvas = document.getElementById("pdf");
+                var context = canvas.getContext("2d");
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+
+                // Render the page into the <canvas> element.
+                var renderContext = {
+                    canvasContext: context,
+                    viewport: viewport
+                };
+                page.render(renderContext).then(function () {
+                    console.log("Page rendered!");
+                });
+            });
+        },
+        function (reason) {
+            console.error(reason);
+        }
+    );
+</script>

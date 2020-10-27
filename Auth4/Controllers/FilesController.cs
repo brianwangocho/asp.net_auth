@@ -194,6 +194,16 @@ namespace Auth4.Controllers
 
 
 
+        public ActionResult ViewPdf(int FileId)
+        {
+            FilesRepo filesRepo = new FilesRepo(context);
+            TempData["File.url"] = filesRepo.GetfilePath(FileId);
+
+            return View();
+        }
+
+
+
 
     }
 

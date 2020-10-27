@@ -45,6 +45,19 @@ namespace Auth4.Repo
             return data;
         }
 
+        public bool findIfPriorityandNameExists(int prority, string name)
+        {
+            bool Exist = false;
+            var data = _context.Tasks.Where(b => b.Priority == prority && b.Name == name).FirstOrDefault();
+
+            if (data != null)
+            {
+                Exist = true;
+                return Exist;
+            }
+
+            return Exist;
+        }
 
 
     }

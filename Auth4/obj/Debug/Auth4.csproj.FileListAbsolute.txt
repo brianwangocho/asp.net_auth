@@ -281,9 +281,13 @@ C:\Users\Ngenx\source\repos\Authentication\Auth4\bin\de\DevExpress.Xpo.v20.1.res
 C:\Users\Ngenx\source\repos\Authentication\Auth4\bin\es\DevExpress.Xpo.v20.1.resources.dll
 C:\Users\Ngenx\source\repos\Authentication\Auth4\bin\ja\DevExpress.Xpo.v20.1.resources.dll
 C:\Users\Ngenx\source\repos\Authentication\Auth4\bin\ru\DevExpress.Xpo.v20.1.resources.dll
-C:\Users\Ngenx\source\repos\Authentication\Auth4\obj\Debug\Auth4.csprojAssemblyReference.cache
 C:\Users\Ngenx\source\repos\Authentication\Auth4\bin\IronPdf.Assets.Rendering.Windows.dll
 C:\Users\Ngenx\source\repos\Authentication\Auth4\bin\IronPdf.dll
 C:\Users\Ngenx\source\repos\Authentication\Auth4\bin\IronPdf.xml
-C:\Users\Ngenx\source\repos\Authentication\Auth4\obj\Debug\Auth4.Migrations.addedTask.resources
+C:\Users\Ngenx\source\repos\Authentication\Auth4\obj\Debug\Auth4.csprojAssemblyReference.cache
+C:\Users\Ngenx\source\repos\Authentication\Auth4\obj\Debug\Auth4.Migrations.updatedforeignkey.resources
 C:\Users\Ngenx\source\repos\Authentication\Auth4\obj\Debug\Auth4.csproj.GenerateResource.cache
+C:\Users\Ngenx\source\repos\Authentication\Auth4\obj\Debug\Auth4.Migrations.changekeysinrotters.resources
+C:\Users\Ngenx\source\repos\Authentication\Auth4\obj\Debug\Auth4.Migrations.changeicollectiontolist.resources
+C:\Users\Ngenx\source\repos\Authentication\Auth4\obj\Debug\Auth4.Migrations.addedvirtualtorotter.resources
+C:\Users\Ngenx\source\repos\Authentication\Auth4\obj\Debug\Auth4.Migrations.addedvirtualtorotter1.resources

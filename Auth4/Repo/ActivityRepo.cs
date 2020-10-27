@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace Auth4.Repo
 {
@@ -25,11 +26,11 @@ namespace Auth4.Repo
             _context.Activities.Add(activity);
             _context.SaveChanges();
         }
-        
+
         public bool findByName(string name)
         {
             bool Exist = false;
-         var data =    _context.Activities.Where(b => b.Name == name).FirstOrDefault();
+            var data = _context.Activities.Where(b => b.Name == name).FirstOrDefault();
 
             if (data != null)
             {
@@ -48,10 +49,25 @@ namespace Auth4.Repo
 
         public void DeactivateActivity(int ID)
         {
-            Activity activity =  _context.Activities.FirstOrDefault(e => e.Id == ID);
+            Activity activity = _context.Activities.FirstOrDefault(e => e.Id == ID);
             activity.Status = "0";
             _context.Set<Activity>().AddOrUpdate(activity);
             _context.SaveChanges();
+        }
+        public void ActivateActivity(int ID)
+        {
+            Activity activity = _context.Activities.FirstOrDefault(e => e.Id == ID);
+            activity.Status = "1";
+            _context.Set<Activity>().AddOrUpdate(activity);
+            _context.SaveChanges();
+        }
+
+
+
+        public List<SelectListItem> selecItemActivity()
+        {
+           var data = _context.Activities.Select(r => new SelectListItem { Value = r.Id.ToString(), Text = r.Name }).ToList();
+            return data;
         }
 
         public IEnumerable<Activity> GetAll()

@@ -13,19 +13,18 @@ namespace Auth4.Models
         public int Id { get; set; }
 
         [Required]
-        public int PertakerId { get; set; }
+        public string PertakerId { get; set; }
 
     
         public Pertake pertake { get; set; }
 
         [Required]
-        public int UserId { get; set; }
+        public string UserId { get; set; }
 
-        [Required]
+    
         public int TaskId { get; set; }
 
-        [ForeignKey("TaskId")]
-        public Tasks task { get; set; }
+       
 
         
         public string status { get; set; }

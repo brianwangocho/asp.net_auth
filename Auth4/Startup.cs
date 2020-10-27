@@ -43,6 +43,7 @@ namespace Auth4
                 user.TwoFactorEnabled = false;
                 user.Email = "jack@gmail.com";
                 string pass = "J@ck123";
+                
 
                 //// takes two params IdentityUser and password
                 var adminuser = userManager.Create(user, pass);

@@ -1,12 +1,79 @@
 ﻿
 @{
     ViewBag.Title = "Index";
-    string text = (string)TempData["Activity"];
+    string activity = (string)TempData["Activity"];
+    string id = (string)TempData["ActivityId"];
+
+    string text = (string)TempData["FlashMessage.Text"];
+
+    string cssClass = null;
+    if (!string.IsNullOrWhiteSpace(text))
+
+    {
+        Auth4.Models.FlashMessageType type = (Auth4.Models.FlashMessageType)TempData["FlashMessage.Type"];
+        cssClass = type.ToString().ToLower();
+    }
 }
 
-<h2>@text</h2>
+<h2>@activity</h2>
+
+@if (!string.IsNullOrWhiteSpace(text))
+{
+
+    if (cssClass.Equals("success"))
+    {
+        <div class="alert alert-success" role="alert">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            @text
+        </div>
+
+    }
+    else if (cssClass.Equals("error"))
+    {
+        <div class="alert alert-warning" role="alert">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            @text
+        </div>
+
+    }
+    else
+    {
+
+        <div class="alert alert-light" role="alert">
+            @text
+        </div>
+    }
 
 
+}
+
+
+
+
+
+
+@using (Html.BeginForm("CreateTask", "Tasks", FormMethod.Post))
+{
+    <div class="row">
+        <div class="col-md-6">
+            <label class="control-label">Name</label>
+            <input type="text" name="TaskName" class="form-control" />
+        </div>
+        <div class="col-md-6">
+            <label class="control-label">Priority</label>
+            <input type="number" name="TaskPriority" class="form-control" min="1" max="5" />
+        </div>
+        @Html.DropDownList("User", (IEnumerable<SelectListItem>)ViewBag.Users, "Select User ..", new { @class = "form-control" })
+        <input type="text" name="id" class="form-control hidden" value="@id" />
+
+        <div class="col-md-12 " style="margin-top:10px;">
+            <button type="submit" value="Submit" class="btn btn-primary">Submit</button>
+        </div>
+    </div>
+
+}
+
+<hr />
 
 @if (Model.IsListEmpty())
 {
@@ -18,4 +85,90 @@
     </div>
 
 }
+else
+{
+    <table class="table table-bordered table-striped table-condensed">
+        <thead>
+            <tr>
+
+                <th>Name</th>
+                <th>AssignTo</th>
+                <th>Status</th>
+                <th>Priority</th>
+                <th>Action</th>
+
+            </tr>
+        </thead>
+        <tbody>
+
+
+
+            @foreach (var item in Model.tasks)
+            {
+                <tr>
+                    <td> @item.Name</td>
+                    <td> @item.AssignTo</td>
+                    @if (@item.Status.Equals("1"))
+                    {
+                        <td style="color:green">active</td>
+                    }
+                    else
+                    {
+                        <td style="color:red">not active</td>
+                    }
+                    <td> @item.Priority</td>
+                    <td><input type="button" value="Edit" onclick="EditTask(@item.Id)" /></td>
+
+
+
+
+                </tr>
+
+            }
+        </tbody>
+    </table>
+
+    <div id='myModal' class='modal'>
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div id='myModalContent'></div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+}
+@*"/Task/Edit?taskId="*@
+
+<script>
+    
+    function EditTask(taskId) {
+        var options = { "backdrop": "static", keyboard: true };  
+        $.ajax({
+            type: "GET", 
+            url: '/Tasks/Edit',
+            contentType: "application/json; charset=utf-8",
+            data: { "taskId": taskId },
+            datatype: "json", 
+            success: function (data) {
+                debugger;
+                $('#myModalContent').html(data);
+                $('#myModal').modal(options);
+                $('#myModal').modal('show');    
+
+            },
+            error: function () {
+                alert("Dynamic content load failed.");  
+            }
+        });
+   
+    }
+    $("#closbtn").click(function () {
+        $('#myModal').modal('hide');
+    });  
+
+</script>
 

@@ -121,7 +121,7 @@ namespace Auth4.Controllers
 
        
 
-            return Redirect("/Admin/Index");
+            return Redirect("/Admin");
         }
 
 

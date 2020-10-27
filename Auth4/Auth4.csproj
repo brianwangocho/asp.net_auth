@@ -260,14 +260,31 @@
     <Compile Include="Controllers\FilesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\PertakeController.cs" />
     <Compile Include="Controllers\SweetController.cs" />
     <Compile Include="Controllers\TasksController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202010140536185_addedTask.cs" />
-    <Compile Include="Migrations\202010140536185_addedTask.designer.cs">
-      <DependentUpon>202010140536185_addedTask.cs</DependentUpon>
+    <Compile Include="Migrations\202010160524170_updatedforeignkey.cs" />
+    <Compile Include="Migrations\202010160524170_updatedforeignkey.designer.cs">
+      <DependentUpon>202010160524170_updatedforeignkey.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202010160617119_changekeysinrotters.cs" />
+    <Compile Include="Migrations\202010160617119_changekeysinrotters.designer.cs">
+      <DependentUpon>202010160617119_changekeysinrotters.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202010160928370_changeicollectiontolist.cs" />
+    <Compile Include="Migrations\202010160928370_changeicollectiontolist.designer.cs">
+      <DependentUpon>202010160928370_changeicollectiontolist.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202010220917337_addedvirtualtorotter.cs" />
+    <Compile Include="Migrations\202010220917337_addedvirtualtorotter.designer.cs">
+      <DependentUpon>202010220917337_addedvirtualtorotter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202010220935175_addedvirtualtorotter1.cs" />
+    <Compile Include="Migrations\202010220935175_addedvirtualtorotter1.designer.cs">
+      <DependentUpon>202010220935175_addedvirtualtorotter1.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -282,6 +299,7 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Pertake.cs" />
+    <Compile Include="Models\PertakeViewModel.cs" />
     <Compile Include="Models\RolesViewModel.cs" />
     <Compile Include="Models\Rotter.cs" />
     <Compile Include="Models\Tasks.cs" />
@@ -291,6 +309,8 @@
     <Compile Include="Repo\ActivityRepo.cs" />
     <Compile Include="Repo\DeptRepo.cs" />
     <Compile Include="Repo\FilesRepo.cs" />
+    <Compile Include="Repo\PertakeRepo.cs" />
+    <Compile Include="Repo\RotterRepo.cs" />
     <Compile Include="Repo\TaskRepo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -464,6 +484,9 @@
     <Content Include="Views\Sweet\Alert.cshtml" />
     <Content Include="Views\Activity\Index.cshtml" />
     <Content Include="Views\Tasks\Index.cshtml" />
+    <Content Include="Views\Pertake\Index.cshtml" />
+    <Content Include="Views\Files\viewPdf.cshtml" />
+    <Content Include="Views\Tasks\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -480,8 +503,20 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202010140536185_addedTask.resx">
-      <DependentUpon>202010140536185_addedTask.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202010160524170_updatedforeignkey.resx">
+      <DependentUpon>202010160524170_updatedforeignkey.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202010160617119_changekeysinrotters.resx">
+      <DependentUpon>202010160617119_changekeysinrotters.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202010160928370_changeicollectiontolist.resx">
+      <DependentUpon>202010160928370_changeicollectiontolist.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202010220917337_addedvirtualtorotter.resx">
+      <DependentUpon>202010220917337_addedvirtualtorotter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202010220935175_addedvirtualtorotter1.resx">
+      <DependentUpon>202010220935175_addedvirtualtorotter1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

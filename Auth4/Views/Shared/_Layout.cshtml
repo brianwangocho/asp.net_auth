@@ -9,7 +9,12 @@
     @Scripts.Render("~/bundles/modernizr")
 
     <link href="~/Content/sweetalert/sweet-alert.css" rel="stylesheet" />
-    <script type="application/json" src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
+
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css" />
+
+    <script type="application/json" src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js">
+    </script>
 
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
@@ -36,6 +41,7 @@
                         <li>@Html.ActionLink("Activities", "Index", "Activity")</li>
                         <li>@Html.ActionLink("Create Role", "CreateRole", "Admin")</li>
                         <li>@Html.ActionLink("Assign Role", "AssignRole", "Admin")</li>
+                        <li>@Html.ActionLink("Pertaking", "Index", "Pertake")</li>
 
                     }
                     @if (Request.IsAuthenticated && User.IsInRole("User"))

@@ -81,6 +81,20 @@ namespace Auth4.Controllers
             return  jObject ;
         }
 
+        [HttpPost]
+        public JObject ActivateActivity(int id)
+        {
+
+            ActivityRepo activityRepo = new ActivityRepo(context);
+            activityRepo.ActivateActivity(id);
+            JObject jObject = new JObject();
+            jObject.Add("status", "00");
+            jObject.Add("message", "success");
+
+            return jObject;
+        }
+
+
         public void SetFlash(FlashMessageType type, string text)
         {
             TempData["FlashMessage.Type"] = type;

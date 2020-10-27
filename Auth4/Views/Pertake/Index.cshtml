@@ -1,0 +1,97 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+
+@{
+    ViewBag.Title = "AssignRole";
+}
+
+<h2>Pertaking</h2>
+@using (Html.BeginForm("AssignPersonToActivity", "Pertake", FormMethod.Post))
+{
+    <div class="row">
+        <div class="col-md-6">
+            <label class="control-label">User Name</label>
+            <input type="text" name="txtUserName" class="form-control" />
+
+        </div>
+        <div class="col-md-6">
+            <label class="control-label">Name</label>
+            <input type="text" name="Name" class="form-control" />
+
+        </div>
+        <div class="col-md-6">
+            <label class="control-label">Select Role</label>
+            @Html.DropDownList("Activity", (IEnumerable<SelectListItem>)ViewBag.Activity, "Select Activity ..", new { @class = "form-control" })
+        </div>
+        <div>
+            <div class="col-md-12">
+                <button type="submit" value="Submit" class="btn btn-primary">Save</button>
+            </div>
+        </div>
+    </div>
+
+}
+
+@if (Model.IsListEmpty())
+{
+    <div class="center-block" style="align-content:center;">
+        <img src="https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/84b5c155264735.597d9ddcb39d8.jpg" style="width:500px; align-items:center;
+" alt="empty" />
+        <p>No users found</p>
+
+    </div>
+
+}
+else
+{
+    <table class="table table-bordered table-striped table-condensed">
+        <thead>
+            <tr>
+
+                <th>Name</th>
+                <th>InCharge</th>
+                <th>Task</th>
+                <th>status</th>
+
+            </tr>
+        </thead>
+        <tbody>
+
+
+
+            @foreach (var item in Model.rotterlist)
+            {
+            <tr>
+                <td>@Model.getName(@item.PertakerId)</td>
+                <td>@Model.getName(@item.UserId)</td>
+                <td>@Model.getTask(@item.TaskId)</td>
+                @if (@item.status.Equals("1"))
+                {
+                    <td style="color:green">Pending</td>
+                }
+                else if (@item.status.Equals("2"))
+                {
+                    <td style="color:green">Done</td>
+                }
+                else
+                {
+                    <td style="color:red">not active</td>
+                }
+
+
+
+
+            </tr>
+
+            }
+        </tbody>
+    </table>
+
+
+
+}

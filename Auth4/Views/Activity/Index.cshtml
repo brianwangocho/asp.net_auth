@@ -112,7 +112,7 @@ else
                     }
                     else
                     {
-                        <button onclick="deactivateActivity(@item.Id)">activate</button>
+                        <button onclick="activateActivity(@item.Id)">activate</button>
                     }
 
                 </td>
@@ -129,9 +129,9 @@ else
 }
 <script>
 
-   
+
     var deactivateActivity = (id) => {
-      
+
         $.ajax({
             type: 'POST',
             async:true,
@@ -139,12 +139,31 @@ else
             data: { Id: id },
             success: function (data) {
                 alert(data);
+           
             },
             error: function () {
                 alert("something happened contact the admin")
             }
 
         })
+    }
+
+    var activateActivity = (id) => {
+          $.ajax({
+            type: 'POST',
+            async:true,
+            url: '@Url.Action("ActivateActivity")',
+            data: { Id: id },
+            success: function (data) {
+                alert(data);
+           
+            },
+            error: function () {
+                alert("something happened contact the admin")
+            }
+
+        })
+
     }
 
 
