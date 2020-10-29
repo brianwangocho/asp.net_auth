@@ -27,7 +27,7 @@
 
                 </div>
 
-                <input type="text" name="txtClassDeptId" required class="form-control hidden"  value="@ViewBag.DeptClassId" />
+                <input type="text" name="txtClassDeptId" required class="form-control hidden" value="@ViewBag.DeptClassId" />
 
 
                 <div class="col-md-12 " style="margin-top:10px;">
@@ -71,15 +71,31 @@ else
         <div class="col-sm-4">
             <div class="card" style=" padding: 2px 26px 8px;margin-bottom:6px;margin-top:6px;  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); transition: 0.3s;">
                 @*<img class="card-img-top" src="..." alt="Card image cap">*@
-                <h5 class="card-title"> <i class="glyphicon glyphicon-folder-open" style="color:orange;"></i> @item.FileName</h5>
+
+                <div style="display:flex; align-items:center; justify-content:space-between">
+                    <h5 class="card-title"> <i class="glyphicon glyphicon-folder-open" style="color:orange;"></i> @item.FileName</h5>
+                    <div class="dropdown">
+                        <a class=" dropdown-toggle" type="button" id="dropdownMenuButton"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="glyphicon glyphicon-option-vertical"></span>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="padding:15px;">
+                            <a class="dropdown-item" style="margin:25px;" href="#">Action   </a>
+                            <p class="dropdown-item" style="margin:25px;"  onclick="ForwardTask(@item.Id)"> Forward </p>
+                            <a class="dropdown-item" style="margin:25px;" href="#">Edit     </a>
+                        </div>
+                    </div>
+
+                </div>
+
                 <h5 class="card-title"> <i class="fas fa-file-pdf" style="color:orange;"></i> @item.ContentType</h5>
                 <div class="card-body">
 
                     @*<object data=@Model.LoadPdf(@item.file) type="application/pdf"></object>*@
                     @*<embed type="application/pdf" data=@Model.LoadPdf(@item.file) width="100%" height="100%">
-        </embed>*@
+                        </embed>*@
 
-                    <p class="card-text"><span>CreatedBy</span>@item.CreatedBy</p>
+                    <p class="card-text"><span>CreatedBy</span>  @Model.getName(@item.CreatedBy)</p>
                     <p class="card-text"><span>CreatedOn</span>@item.CreatedOn</p>
 
                     <a style="text-decoration:none" href="@Url.Action("ViewPdf", "Files",new {  FileId = item.Id}) ">View</a>
@@ -88,6 +104,17 @@ else
 
 
 
+                </div>
+            </div>
+
+        </div>
+
+
+
+        <div id='myModal' class='modal'>
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div id='myModalContent'></div>
                 </div>
             </div>
 
@@ -114,6 +141,31 @@ else
 
         })
     }
+
+    function ForwardTask(fileId) {
+        var options = { "backdrop": "static", keyboard: true };
+        $.ajax({
+            type: "GET",
+            url: '/Files/ForwardFile',
+            contentType: "application/json; charset=utf-8",
+            data: { "fileId":fileId },
+            datatype: "json",
+            success: function (data) {
+                debugger;
+                $('#myModalContent').html(data);
+                $('#myModal').modal(options);
+                $('#myModal').modal('show');
+
+            },
+            error: function () {
+                alert("Dynamic content load failed.");
+            }
+        });
+
+    }
+    $("#closbtn").click(function () {
+        $('#myModal').modal('hide');
+    });
 
 
 </script>

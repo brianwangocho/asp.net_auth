@@ -1,0 +1,18 @@
+﻿@model Auth4.Models.Files
+<div>
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h4 class="modal-title" id="myModalLabel">Forward File @Model.FileName </h4>
+    </div>
+    <hr />
+    @Html.HiddenFor(model => model.Id)
+
+    <br />
+    Forward To : @Html.DropDownList("User", (IEnumerable<SelectListItem>)ViewBag.Users, "Select User ..", new { @class = "form-control" })
+
+    <hr />
+    <input type="button" value="update task" />
+
+
+
+</div>

@@ -193,15 +193,39 @@ namespace Auth4.Controllers
         }
 
 
+        [HttpGet]
+        public JObject GetPdfByte(int FileId)
+        {
+            FilesRepo filesRepo = new FilesRepo(context);
+            byte[] bytes = System.IO.File.ReadAllBytes(filesRepo.GetfilePath(FileId));
+            JObject jObject = new JObject();
+            jObject.Add("byte", bytes);
+
+            return jObject;
+        }
 
         public ActionResult ViewPdf(int FileId)
         {
-            FilesRepo filesRepo = new FilesRepo(context);
-            TempData["File.url"] = filesRepo.GetfilePath(FileId);
+
+
+            TempData["File.Id"] = FileId.ToString();
 
             return View();
         }
+        [HttpGet]
+        public PartialViewResult ForwardFile(int fileId)
+        {
+            FilesRepo filesRepo = new FilesRepo(context);
+            string fileowner = filesRepo.GetById(fileId).CreatedBy;
 
+
+
+            ViewBag.Users = context.Users.Where(item => item.Id !=fileowner)
+                                   .Select(c => new SelectListItem() { Text = c.UserName, Value = c.Id });
+
+            return PartialView(filesRepo.GetById(fileId));
+
+        }
 
 
 

@@ -1,7 +1,7 @@
 ﻿
 @{
     Layout = null;
-    string text = (string)TempData["File.url"];
+    string text = (string)TempData["File.Id"];
 }
 
 <!DOCTYPE html>
@@ -10,65 +10,258 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>viewPdf</title>
- 
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
 </head>
-<body>
-    <div>
-        <canvas id="pdf"></canvas>
+<body style="overflow:hidden;">
+    <div style="display:flex; align-content:space-between; align-items:flex-start;">
+   
+
+         
+                <div style="width:900px; overflow:auto;text-align:center;background:#000000">
+                    <canvas id="pdf" style="margin-top:40px;padding:60px; "></canvas>
+                </div>
+
+                <div>
+
+
+                </div>
+
+                <div id="pdf-controls" style="width:auto;">
+                    <button  class="btn btn-info" id="go_previous"><span class="glyphicon glyphicon-chevron-left"></span>Previous</button>
+                    <input type="number" value="1" id="current_page" />
+                    <button  class="btn btn-info" id="go_next"><span class="glyphicon glyphicon-chevron-right"></span> Next</button>
+                    <button  class="btn btn-info" id="zoom_in"> <span class="glyphicon glyphicon-zoom-in"></span> zoom in</button>
+                    <button  class="btn btn-info" id="zoom_out"> <span class="glyphicon glyphicon-zoom-out"></span> zoom out</button>
+                    <button id="test"> test</button>
+                    <button  class="btn btn-warning"><span class="glyphicon glyphicon-trash"></span> Delete file</button>
+                    <button  class="btn btn-success"><span class="glyphicon glyphicon-thumbs-up"></span> Approve</button>
+                    <button  class="btn btn-primary" onclick="ForwardTask()"> <span class=" 	glyphicon glyphicon-send"></span> Forward  file</button>
+
+                </div>
+                
+                   
+         
+
+
+
+        </div>
+
+        <div id='myModal' class='modal'>
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div id='myModalContent'></div>
+                </div>
+            </div>
+
+        </div>
+
     </div>
 </body>
 </html>
+  @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.0.943/pdf.min.js">
 </script>
 
 <script>
-    var exp ="@text";
-    console.log(exp);
-    function getsize() {
-        var myObject, afile, size;
-        // Creates an instance of the FileSystemObject
-        myObject = new ActiveXObject("Scripting.FileSystemObject");
-        afile = myObject.GetFile(exp)
 
-        //Gets the size of the file
-        size = afile.Size;
-        console.log(size);
-
-        // Informs user of the file size
-        alert("The size of the test.txt file is:" + size);
-    } 
+    $(document).ready(function () {
+        console.log("ready!");
+        var exp = "@text";
+        console.log(exp)
+        var myState = {
+            pdf:null,
+            currentPage: 1,
+            zoom:1
+        }
 
 
 
 
-    var loadingTask = pdfjsLib.getDocument("file:///" + exp);
 
-    getsize();
-    loadingTask.promise.then(
-        function (pdf) {
-            // Load information from the first page.
-            pdf.getPage(1).then(function (page) {
-                var scale = 1;
-                var viewport = page.getViewport(scale);
+        $.ajax({
+            type: "GET",
+            url: '/Files/GetPdfByte',
+            contentType: "application/json; charset=utf-8",
+            data: { "fileId": parseInt(exp) },
+            datatype: "json",
+            success: function (data) {
+                var result = $.parseJSON(data);
+                var pdfData = atob(result.byte)
 
-                // Apply page dimensions to the <canvas> element.
+
+                var loadingTask = pdfjsLib.getDocument({ data: pdfData });
+                loadingTask.then(pdf => {
+                    myState.pdf = pdf;
+                    console.log(myState.pdf)
+
+                    render();
+                })
+
+
+            },
+            error: function () {
+                alert("Dynamic content load failed.");
+            }
+        });
+
+
+        var render = () => {
+            if (myState.currentPage > myState.pdf._pdfInfo.numPages) return;
+            myState.pdf.getPage(myState.currentPage).then(page => {
                 var canvas = document.getElementById("pdf");
-                var context = canvas.getContext("2d");
-                canvas.height = viewport.height;
+                var ctx = canvas.getContext("2d");
+                var viewport = page.getViewport(myState.zoom)
                 canvas.width = viewport.width;
-
-                // Render the page into the <canvas> element.
-                var renderContext = {
-                    canvasContext: context,
+                canvas.height = viewport.height;
+                /// render page
+                page.render({
+                    canvasContext: ctx,
                     viewport: viewport
-                };
-                page.render(renderContext).then(function () {
-                    console.log("Page rendered!");
+                })
+            })
+        }
+
+
+        document.getElementById('go_previous').addEventListener('click', (e) => {
+            if (myState.pdf == null || myState.currentPage == 1) return;
+
+            myState.currentPage = myState.currentPage - 1;
+            document.getElementById("current_page").value = myState.currentPage;
+
+            render();
+        })
+
+        document.getElementById('go_next').addEventListener('click', (e) => {
+
+
+            if (myState.pdf == null || myState.currentPage > myState.pdf._pdfInfo.numPages -1) return;
+
+            myState.currentPage = myState.currentPage + 1;
+            document.getElementById("current_page").value = myState.currentPage;
+            render();
+
+        })
+
+        document.getElementById("current_page").addEventListener('keypress', (e) => {
+            if (myState.pdf == null) return;
+
+            var code = (e.keyCode ? e.keyCode : e.which)
+
+            if (code == 13) {
+                var desiredPage = document.getElementById("current_page").valueAsNumber;
+
+                if (desiredPage >= 1 && desiredPage <= myState.pdf._pdfInfo.numPages) {
+                    myState.currentPage = desiredPage;
+                    document.getElementById("current_page").value = desiredPage
+
+                    render();
+                }
+            }
+        })
+
+
+
+        document.getElementById("zoom_in").addEventListener('click', (e) => {
+            if (myState.pdf == null) return;
+            myState.zoom = myState.zoom + 0.5;
+            render();
+        })
+        document.getElementById("zoom_out").addEventListener('click', (e) => {
+            if (myState.pdf == null) return;
+            myState.zoom = myState.zoom - 0.5;
+            render();
+        })
+        document.getElementById("test").addEventListener('click', (e) => {
+            getDocument();
+        })
+
+
+        function getDocument() {
+            var pagesPromises = [];
+
+            for (var i = 0; i < myState.pdf._pdfInfo.numPages; i++) {
+                // Required to prevent that i is always the total of pages
+                (function (pageNumber) {
+                    pagesPromises.push(getPageText(pageNumber,myState.pdf));
+                })(i + 1);
+            }
+
+            Promise.all(pagesPromises).then(function (pagesText) {
+
+                // Display text of all the pages in the console
+                console.log(pagesText);
+            });
+        }
+
+
+          @*@param {Integer} pageNum Specifies the number of the page
+          @param {PDFDocument} PDFDocumentInstance The PDF document obtained*@
+
+
+        function getPageText(pageNum, PDFDocumentInstance) {
+            // Return a Promise that is solved once the text of the page is retrieven
+            return new Promise(function (resolve, reject) {
+                PDFDocumentInstance.getPage(pageNum).then(function (pdfPage) {
+                    // The main trick to obtain the text of the PDF page, use the getTextContent method
+                    pdfPage.getTextContent().then(function (textContent) {
+                        var textItems = textContent.items;
+                        var finalString = "";
+
+                        // Concatenate the string of the item to the final string
+                        for (var i = 0; i < textItems.length; i++) {
+                            var item = textItems[i];
+
+                            finalString += item.str + " ";
+                        }
+
+                        // Solve promise with the text retrieven from the page
+                        resolve(finalString);
+                    });
                 });
             });
-        },
-        function (reason) {
-            console.error(reason);
         }
-    );
+
+        
+
+    });
+
+
+
+
+
+
+</script>
+
+<script>
+     var exp = "@text";
+
+
+    function ForwardTask() {
+        var options = { "backdrop": "static", keyboard: true };
+        $.ajax({
+            type: "GET",
+            url: '/Files/ForwardFile',
+            contentType: "application/json; charset=utf-8",
+            data: { "fileId": parseInt(exp) },
+            datatype: "json",
+            success: function (data) {
+                debugger;
+                $('#myModalContent').html(data);
+                $('#myModal').modal(options);
+                $('#myModal').modal('show');
+
+            },
+            error: function () {
+                alert("Dynamic content load failed.");
+            }
+        });
+
+    }
+    $("#closbtn").click(function () {
+        $('#myModal').modal('hide');
+    });
+
 </script>

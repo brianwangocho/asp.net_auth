@@ -61,6 +61,13 @@ namespace Auth4.Repo
 
         }
 
+        public Files GetById(int id)
+        {
+            Files files = _context.Files.FirstOrDefault(e => e.Id == id);
+
+            return files;
+        }
+
 
         /// <summary>
         /// get alll files

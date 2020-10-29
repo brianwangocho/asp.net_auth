@@ -3,6 +3,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin;
 using Owin;
+using System;
 
 [assembly: OwinStartupAttribute(typeof(Auth4.Startup))]
 namespace Auth4
@@ -13,6 +14,7 @@ namespace Auth4
         {
             ConfigureAuth(app);
             CreateUserAndRoles();
+          
         }
 
 

@@ -487,6 +487,7 @@
     <Content Include="Views\Pertake\Index.cshtml" />
     <Content Include="Views\Files\viewPdf.cshtml" />
     <Content Include="Views\Tasks\Edit.cshtml" />
+    <Content Include="Views\Files\ForwardFile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

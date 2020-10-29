@@ -11,6 +11,7 @@ namespace Auth4.Models
     public class FilesViewModel
     {
       public  IEnumerable<Files> files { get; set; }
+        ApplicationDbContext context = new ApplicationDbContext();
 
 
 
@@ -54,6 +55,15 @@ namespace Auth4.Models
           string docBase64 = "data:application/pdf;base64," + Convert.ToBase64String(file);
             return (docBase64);
 
+
+        }
+
+
+        public string getName(string id)
+        {
+            ApplicationUser user = context.Users.Where(e => e.Id == id).FirstOrDefault();
+
+            return user.UserName;
 
         }
 
